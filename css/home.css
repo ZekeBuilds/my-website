@@ -113,6 +113,9 @@ textarea {
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .socials-section h2 {
@@ -123,8 +126,8 @@ textarea {
 }
 
 .cv-button {
-    display: block;
-    margin: 20px auto 0;
+    display: inline-block;
+    margin-top: 20px;
     padding: 15px 35px;
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     color: white;
@@ -134,8 +137,6 @@ textarea {
     font-size: 1.1em;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
-    width: fit-content;
-    text-align: center;
 }
 
 .cv-button:hover {
