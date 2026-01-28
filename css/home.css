@@ -123,8 +123,8 @@ textarea {
 }
 
 .cv-button {
-    display: inline-block;
-    margin-top: 20px;
+    display: block;
+    margin: 20px auto 0;
     padding: 15px 35px;
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     color: white;
@@ -134,6 +134,8 @@ textarea {
     font-size: 1.1em;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+    width: fit-content;
+    text-align: center;
 }
 
 .cv-button:hover {
