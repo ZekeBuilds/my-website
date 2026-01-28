@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.about-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 30px;
+}
+
+.page-title {
+    color: #1e3c72;
+    font-size: 2.8em;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.about-card {
+    background: white;
+    border-radius: 15px;
+    padding: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-section {
+    margin-bottom: 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-section h2 {
+    color: #1e3c72;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.profile-section .role {
+    color: #667eea;
+    font-size: 1.4em;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.bio {
+    color: #555;
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.interests-section h3 {
+    color: #1e3c72;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.interests-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.interest-item {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    color: #333;
+    font-size: 1.05em;
+    transition: transform 0.3s ease;
+}
+
+.interest-item:hover {
+    transform: translateX(5px);
+}
+
+.interest-icon {
+    font-size: 1.5em;
+    margin-right: 10px;
+}
