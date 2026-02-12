@@ -1,98 +1,251 @@
 body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height: 100vh;
+    background: #0a0e27;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    min-height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .works-container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 50px 30px;
+    padding: 60px 40px;
 }
 
 .page-title {
-    color: #1e3c72;
-    font-size: 2.8em;
+    color: #ffffff;
+    font-size: 3em;
     margin-bottom: 20px;
-    text-align: center;
     font-weight: 700;
+    text-align: left;
+    background: linear-gradient(135deg, #ffffff 0%, #2ecc71 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: slideInLeft 0.8s ease-out;
+    position: relative;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, #2ecc71, #3498db);
+    border-radius: 2px;
+    animation: expandWidth 0.8s ease-out 0.3s both;
+}
+
+@keyframes expandWidth {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 120px;
+    }
 }
 
 .page-subtitle {
-    text-align: center;
-    color: #666;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.6);
     font-size: 1.2em;
     margin-bottom: 50px;
+    animation: fadeIn 1s ease-out 0.4s both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 35px;
 }
 
 .project-card {
-    background: white;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
     padding: 0;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    position: relative;
+    animation: fadeInScale 0.8s ease-out both;
+}
+
+.project-card:nth-child(1) {
+    animation-delay: 0.6s;
+}
+
+.project-card:nth-child(2) {
+    animation-delay: 0.8s;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(46, 204, 113, 0.1), transparent);
+    transition: left 0.8s;
+}
+
+.project-card:hover::before {
+    left: 100%;
 }
 
 .project-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:
+        0 20px 60px rgba(46, 204, 113, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: #2ecc71;
 }
 
 .project-icon {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
     padding: 50px;
     text-align: center;
-    font-size: 5em;
+    font-size: 2.5em;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-icon::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
 }
 
 .project-content {
-    padding: 30px;
+    padding: 40px;
     display: flex;
     flex-direction: column;
     flex: 1;
+    position: relative;
 }
 
 .project-card h3 {
-    color: #1e3c72;
+    color: #ffffff;
     font-size: 1.8em;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    position: relative;
 }
 
 .project-card p {
-    color: #555;
+    color: rgba(255, 255, 255, 0.8);
     line-height: 1.8;
     font-size: 1.05em;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .tech-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 12px;
+    margin-top: 25px;
 }
 
 .tech-tag {
-    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-    color: #667eea;
-    padding: 8px 16px;
-    border-radius: 20px;
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    padding: 10px 20px;
+    border-radius: 25px;
     font-size: 0.9em;
     font-weight: 600;
-    border: 1px solid #667eea30;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.tech-tag::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(46, 204, 113, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.tech-tag:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.tech-tag:hover {
+    background: #2ecc71;
+    color: #0a0e27;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
 }
