@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+    <div class="home-container">
+        <div class="welcome-section">
+            <div class="icon">👋</div>
+            <h1>Welcome to My Portfolio</h1>
+            <p>Hello! I'm Ezekiel John R. Libao, a passionate Computer Engineering student at De La Salle University.</p>
+            <p>Explore my portfolio to learn more about my projects, experience, and educational background. Feel free to reach out through the contact form below!</p>
+        </div>
+
+        <div class="socials-section">
+            <h2>Connect With Me</h2>
+            <div class="social-links">
+                <a href="YOUR_FACEBOOK_LINK_HERE" target="_blank" class="social-link">
+                    <span class="social-icon">📘</span>
+                    Facebook
+                </a>
+                <a href="YOUR_INSTAGRAM_LINK_HERE" target="_blank" class="social-link">
+                    <span class="social-icon">📷</span>
+                    Instagram
+                </a>
+                <a href="YOUR_TWITTER_LINK_HERE" target="_blank" class="social-link">
+                    <span class="social-icon">🐦</span>
+                    Twitter
+                </a>
+                <a href="YOUR_TIKTOK_LINK_HERE" target="_blank" class="social-link">
+                    <span class="social-icon">🎵</span>
+                    TikTok
+                </a>
+            </div>
+            <a href="cv.html" target="_blank" class="cv-button">
+                <span class="cv-icon">📄</span>
+                View My CV/Resume
+            </a>
+        </div>
+
+        <div class="contact-section">
+            <h2>Get In Touch</h2>
+            <form id="contactForm" onsubmit="return handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required placeholder="What is this about?">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+            <div id="successMessage" class="success-message">
+                <p class="success-title">✅ Message Sent Successfully!</p>
+                <p class="success-text">Thank you for reaching out. I'll get back to you soon!</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+            
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('subject', subject);
+            formData.append('message', message);
+            formData.append('timestamp', new Date().toLocaleString());
+            
+            const form = document.getElementById('contactForm');
+            const successMessage = document.getElementById('successMessage');
+            
+            form.style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            setTimeout(function() {
+                form.reset();
+                form.style.display = 'block';
+                successMessage.style.display = 'none';
+            }, 5000);
+            
+            return false;
+        }
+    </script>
+</body>
+</html>
