@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 6: Reverse Number</title>
+</head>
+
+<body>
+    <h2>Reverse a Number</h2>
+    <input type="number" id="userNumber" placeholder="Enter number">
+    <button onclick="rev_num()">Reverse</button>
+    <p id="output"></p>
+
+    <script>
+        // Declare and define the function rev_num() 
+        function rev_num() {
+            // Get the input num from the user [cite: 56]
+            var n = document.getElementById("userNumber").value;
+
+            // Logic to reverse string/number
+            var reversed = n.toString().split("").reverse().join("");
+
+            // Print the result [cite: 57]
+            document.getElementById("output").innerHTML = "Reversed: " + reversed;
+        }
+    </script>
+</body>
+
+</html>

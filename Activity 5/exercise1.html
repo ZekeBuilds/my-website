@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 1: Array Sum</title>
+</head>
+<body>
+    <h2>Sum of Array Elements</h2>
+    <p id="output"></p>
+
+    <script>
+        // Start execution [cite: 12]
+        // Create the array with 6 elements [cite: 13]
+        var numbers = [10, 20, 30, 40, 50, 60];
+        var sum = 0;
+
+        // Calculate the sum of array of integers using for loop [cite: 14]
+        for (var i = 0; i < numbers.length; i++) {
+            sum += numbers[i];
+        }
+
+        // Print the value of sum [cite: 15]
+        console.log("Sum: " + sum); // Check console
+        document.getElementById("output").innerHTML = 
+            "Array: [" + numbers + "]<br>" + 
+            "The sum is: " + sum;
+    </script>
+</body>
+</html>

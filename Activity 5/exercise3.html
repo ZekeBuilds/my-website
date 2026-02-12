@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 3: Odd or Even</title>
+</head>
+
+<body>
+    <h2>Odd or Even Loop (0-15)</h2>
+    <div id="result"></div>
+
+    <script>
+        var output = "";
+        // Using for loop and conditional construct [cite: 31]
+        for (var i = 0; i <= 15; i++) {
+            if (i % 2 === 0) {
+                output += i + " is even<br>";
+            } else {
+                output += i + " is odd<br>";
+            }
+        }
+        // Print the output [cite: 32]
+        document.getElementById("result").innerHTML = output;
+    </script>
+</body>
+
+</html>

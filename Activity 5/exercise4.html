@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 4: Calculator</title>
+    <style>
+        body {
+            margin: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Multiply and Divide</h2>
+    <form>
+        1st Number : <input type="number" id="num1"><br><br>
+        2nd Number: <input type="number" id="num2"><br><br>
+        <input type="button" onClick="multiplyBy()" Value="Multiply">
+        <input type="button" onClick="divideBy()" Value="Divide">
+    </form>
+
+    <p>The Result is: <br>
+        <span id="result"></span>
+    </p>
+
+    <script>
+        // Declare and define function multiplyBy() [cite: 39]
+        function multiplyBy() {
+            var n1 = document.getElementById("num1").value;
+            var n2 = document.getElementById("num2").value;
+            document.getElementById("result").innerHTML = n1 * n2;
+        }
+
+        // Declare and define function divideBy() [cite: 39]
+        function divideBy() {
+            var n1 = document.getElementById("num1").value;
+            var n2 = document.getElementById("num2").value;
+            document.getElementById("result").innerHTML = n1 / n2;
+        }
+    </script>
+</body>
+
+</html>

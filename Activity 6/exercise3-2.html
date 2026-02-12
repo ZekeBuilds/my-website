@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bouncing Ball Animation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Prevents scrollbars when ball hits edges */
+            background-color: #f0f0f0;
+        }
+        #ball {
+            position: absolute; /* Essential for moving elements via top/left */
+            width: 50px;
+            height: 50px;
+            background-color: #e74c3c;
+            border-radius: 50%; /* Makes the div a circle */
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ball"></div>
+
+    <script>
+        let ball = document.getElementById("ball");
+        
+        // Initial positions
+        let x = 0;
+        let y = 0;
+        
+        // Velocity (speed and direction)
+        // dx = 5 moves right, dx = -5 moves left
+        let dx = 5; 
+        let dy = 5;
+
+        // Run the animation function every 20 milliseconds
+        setInterval(() => {
+            // Update positions
+            x += dx;
+            y += dy;
+
+            // Check horizontal boundaries (Right edge or Left edge)
+            // window.innerWidth is the width of the browser window
+            if (x + 50 >= window.innerWidth || x < 0) {
+                dx = -dx; // Reverse horizontal direction
+            }
+
+            // Check vertical boundaries (Bottom edge or Top edge)
+            // window.innerHeight is the height of the browser window
+            if (y + 50 >= window.innerHeight || y < 0) {
+                dy = -dy; // Reverse vertical direction
+            }
+
+            // Apply the new position to the element [cite: 182]
+            ball.style.left = x + "px";
+            ball.style.top = y + "px";
+            
+        }, 20); // Speed of updates [cite: 183]
+    </script>
+
+</body>
+</html>

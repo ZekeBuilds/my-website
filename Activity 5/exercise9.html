@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 9: Background Color</title>
+</head>
+
+<body>
+    <h2>Change Background Color</h2>
+    <p>Click the button to change the paragraph background below.</p>
+
+    <button onclick="set_background()">Set Background</button>
+
+    <p id="myParagraph">
+        This is a sample paragraph. Watch my background change!
+    </p>
+
+    <script>
+        // Declare and define the function set_background() [cite: 80]
+        function set_background() {
+            var para = document.getElementById("myParagraph");
+            para.style.backgroundColor = "yellow";
+            para.style.padding = "10px";
+            para.style.border = "1px solid black";
+        }
+    </script>
+</body>
+
+</html>

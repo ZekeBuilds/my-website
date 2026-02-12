@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Element Position</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex; /* Flexbox to center the element for demonstration */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #box {
+            width: 150px;
+            height: 150px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #2980b9;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="box">Target Box</div>
+    <button onclick="getPosition()">Get Position</button>
+
+    <script>
+        function getPosition() {
+            // Select the element by its ID [cite: 174]
+            let box = document.getElementById("box");
+            
+            // Get the position object relative to the viewport [cite: 175]
+            let position = box.getBoundingClientRect();
+            
+            // Log the specific coordinates to the console 
+            console.log("Left: " + position.left + ", Top: " + position.top);
+            
+            // Also displaying it to the user
+            alert("Box Position:\nTop: " + position.top + "px\nLeft: " + position.left + "px");
+        }
+    </script>
+
+</body>
+</html>

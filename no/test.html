@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melting Candle</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1e 100%);
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            filter: contrast(1.1) brightness(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="candle"></canvas>
+
+    <script>
+        const canvas = document.getElementById('candle');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = 800;
+        canvas.height = 600;
+
+        const startTime = Date.now();
+        const meltDuration = 10000; // 10 seconds
+
+        // Flame particles
+        const particles = [];
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = -Math.random() * 2 - 1;
+                this.life = 1;
+                this.decay = Math.random() * 0.015 + 0.01;
+                this.size = Math.random() * 3 + 2;
+                this.hue = Math.random() * 20 + 40;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                this.vx *= 0.98;
+                this.vy *= 0.98;
+            }
+
+            draw() {
+                if (this.life <= 0) return;
+
+                const alpha = this.life;
+                const brightness = 50 + this.life * 50;
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 100%, ${brightness}%, ${alpha})`;
+                ctx.fill();
+            }
+        }
+
+        // Initial candle properties
+        const initialHeight = 200;
+        const candleWidth = 60;
+        const candleX = canvas.width / 2;
+        const initialCandleY = canvas.height / 2 + 50;
+
+        function drawCandle(progress) {
+            // Calculate melting
+            const meltAmount = progress * initialHeight * 0.7;
+            const currentHeight = initialHeight - meltAmount;
+            const candleY = initialCandleY + meltAmount;
+
+            // Candle body
+            const gradient = ctx.createLinearGradient(
+                candleX - candleWidth / 2,
+                candleY,
+                candleX + candleWidth / 2,
+                candleY
+            );
+            gradient.addColorStop(0, '#f5e6d3');
+            gradient.addColorStop(0.5, '#fff8e7');
+            gradient.addColorStop(1, '#f0dcc0');
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(
+                candleX - candleWidth / 2,
+                candleY,
+                candleWidth,
+                currentHeight
+            );
+
+            // Candle edges for depth
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(candleX - candleWidth / 2, candleY, 2, currentHeight);
+            ctx.fillRect(candleX + candleWidth / 2 - 2, candleY, 2, currentHeight);
+
+            // Melted wax drips
+            if (progress > 0.2) {
+                const dripCount = Math.floor(progress * 5);
+                for (let i = 0; i < dripCount; i++) {
+                    const angle = (i / dripCount) * Math.PI * 2;
+                    const dripX = candleX + Math.cos(angle) * (candleWidth / 2 - 5);
+                    const dripLength = Math.random() * 20 + 10 + progress * 30;
+
+                    ctx.fillStyle = 'rgba(245, 230, 211, 0.8)';
+                    ctx.beginPath();
+                    ctx.ellipse(dripX, candleY + 5, 3, dripLength, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Wick
+            const wickHeight = 15 - progress * 10;
+            ctx.strokeStyle = '#2a2a2a';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(candleX, candleY);
+            ctx.lineTo(candleX, candleY - wickHeight);
+            ctx.stroke();
+
+            // Glowing tip of wick
+            const glowGradient = ctx.createRadialGradient(
+                candleX, candleY - wickHeight, 0,
+                candleX, candleY - wickHeight, 15
+            );
+            glowGradient.addColorStop(0, 'rgba(255, 180, 0, 0.8)');
+            glowGradient.addColorStop(0.5, 'rgba(255, 100, 0, 0.3)');
+            glowGradient.addColorStop(1, 'rgba(255, 50, 0, 0)');
+
+            ctx.fillStyle = glowGradient;
+            ctx.beginPath();
+            ctx.arc(candleX, candleY - wickHeight, 15, 0, Math.PI * 2);
+            ctx.fill();
+
+            return { x: candleX, y: candleY - wickHeight };
+        }
+
+        function drawFlame(x, y, time, progress) {
+            const flameIntensity = 1 - progress * 0.3;
+            const flicker = Math.sin(time * 0.01) * 2 + Math.cos(time * 0.015) * 1.5;
+
+            // Main flame shape
+            const flameHeight = (50 + flicker * 3) * flameIntensity;
+            const flameWidth = 25 * flameIntensity;
+
+            // Outer flame (orange/red)
+            const outerGradient = ctx.createRadialGradient(x, y, 0, x, y - flameHeight / 2, flameHeight);
+            outerGradient.addColorStop(0, 'rgba(255, 220, 100, 0.9)');
+            outerGradient.addColorStop(0.3, 'rgba(255, 160, 50, 0.8)');
+            outerGradient.addColorStop(0.6, 'rgba(255, 80, 20, 0.6)');
+            outerGradient.addColorStop(1, 'rgba(255, 50, 0, 0)');
+
+            ctx.fillStyle = outerGradient;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(
+                x - flameWidth, y - flameHeight * 0.3,
+                x - flameWidth * 0.7, y - flameHeight * 0.7,
+                x, y - flameHeight
+            );
+            ctx.bezierCurveTo(
+                x + flameWidth * 0.7, y - flameHeight * 0.7,
+                x + flameWidth, y - flameHeight * 0.3,
+                x, y
+            );
+            ctx.fill();
+
+            // Inner flame (yellow/white)
+            const innerGradient = ctx.createRadialGradient(x, y, 0, x, y - flameHeight * 0.4, flameHeight * 0.5);
+            innerGradient.addColorStop(0, 'rgba(255, 255, 200, 0.95)');
+            innerGradient.addColorStop(0.5, 'rgba(255, 200, 100, 0.7)');
+            innerGradient.addColorStop(1, 'rgba(255, 150, 50, 0)');
+
+            ctx.fillStyle = innerGradient;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(
+                x - flameWidth * 0.6, y - flameHeight * 0.25,
+                x - flameWidth * 0.4, y - flameHeight * 0.5,
+                x, y - flameHeight * 0.7
+            );
+            ctx.bezierCurveTo(
+                x + flameWidth * 0.4, y - flameHeight * 0.5,
+                x + flameWidth * 0.6, y - flameHeight * 0.25,
+                x, y
+            );
+            ctx.fill();
+
+            // Core (bright center)
+            const coreGradient = ctx.createRadialGradient(x, y - 5, 0, x, y - 5, 12);
+            coreGradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+            coreGradient.addColorStop(0.6, 'rgba(255, 240, 150, 0.6)');
+            coreGradient.addColorStop(1, 'rgba(255, 200, 100, 0)');
+
+            ctx.fillStyle = coreGradient;
+            ctx.beginPath();
+            ctx.arc(x, y - 5, 12, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function animate() {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / meltDuration, 1);
+
+            // Clear canvas
+            ctx.fillStyle = 'rgba(26, 26, 46, 1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw candle
+            const wickPos = drawCandle(progress);
+
+            if (progress < 1) {
+                // Draw flame
+                drawFlame(wickPos.x, wickPos.y, elapsed, progress);
+
+                // Create flame particles
+                if (Math.random() > 0.7) {
+                    particles.push(new Particle(
+                        wickPos.x + (Math.random() - 0.5) * 10,
+                        wickPos.y - 20
+                    ));
+                }
+            }
+
+            // Update and draw particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            // Add ambient glow
+            const glowSize = 150 * (1 - progress * 0.5);
+            const ambientGlow = ctx.createRadialGradient(
+                wickPos.x, wickPos.y, 0,
+                wickPos.x, wickPos.y, glowSize
+            );
+            ambientGlow.addColorStop(0, 'rgba(255, 150, 50, 0.15)');
+            ambientGlow.addColorStop(0.5, 'rgba(255, 100, 30, 0.05)');
+            ambientGlow.addColorStop(1, 'rgba(255, 80, 20, 0)');
+
+            ctx.fillStyle = ambientGlow;
+            ctx.beginPath();
+            ctx.arc(wickPos.x, wickPos.y, glowSize, 0, Math.PI * 2);
+            ctx.fill();
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 30px;
+        }
+
+        .page-title {
+            color: #1e3c72;
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .about-card {
+            background: white;
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .profile-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .profile-section h2 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .profile-section .role {
+            color: #667eea;
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .bio {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .interests-section h3 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .interests-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .interest-item {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            color: #333;
+            font-size: 1.05em;
+            transition: transform 0.3s ease;
+        }
+
+        .interest-item:hover {
+            transform: translateX(5px);
+        }
+
+        .interest-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="about-container">
+        <h1 class="page-title">About Me</h1>
+
+        <div class="about-card">
+            <div class="profile-section">
+                <h2>Ezekiel John R. Libao</h2>
+                <p class="role">Computer Engineering Student</p>
+            </div>
+
+            <div class="bio">
+                <p>I am an undergraduate Computer Engineering student at De La Salle University. I am very interested in
+                    both the software and hardware aspects of computers, exploring how systems work from the ground
+                    up—from circuit design and digital logic to software development and programming.</p>
+                <p>Through my studies, I've gained hands-on experience in both hardware and software development. On the
+                    hardware side, I work with digital systems, microprocessors, and embedded systems. On the software
+                    side, I develop practical applications and interactive projects. I'm passionate about understanding
+                    the complete computing stack and how hardware and software work together to create powerful systems.
+                </p>
+            </div>
+
+            <div class="interests-section">
+                <h3>💡 Interests & Hobbies</h3>
+                <div class="interests-list">
+                    <div class="interest-item">
+                        <span class="interest-icon">💻</span>
+                        Software Development
+                    </div>
+                    <div class="interest-item">
+                        <span class="interest-icon">⚙️</span>
+                        Computer Hardware
+                    </div>
+                    <div class="interest-item">
+                        <span class="interest-icon">🔌</span>
+                        Embedded Systems
+                    </div>
+                    <div class="interest-item">
+                        <span class="interest-icon">🔧</span>
+                        Problem Solving
+                    </div>
+                    <div class="interest-item">
+                        <span class="interest-icon">📚</span>
+                        Continuous Learning
+                    </div>
+                    <div class="interest-item">
+                        <span class="interest-icon">🚀</span>
+                        Innovation
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

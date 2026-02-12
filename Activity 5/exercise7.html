@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 7: Palindrome</title>
+</head>
+
+<body>
+    <h2>Palindrome Checker</h2>
+    <input type="text" id="str" placeholder="Enter string">
+    <button onclick="myFunction()">Check</button>
+    <p id="result"></p>
+
+    <script>
+        // Declare and define myFunction() (as the entry point) 
+        function myFunction() {
+            var string = document.getElementById("str").value;
+            var isPal = checkPalindrome(string);
+
+            if (isPal) {
+                document.getElementById("result").innerHTML = "It IS a palindrome.";
+            } else {
+                document.getElementById("result").innerHTML = "It is NOT a palindrome.";
+            }
+        }
+
+        // Declare and define checkPalindrome() 
+        function checkPalindrome(str) {
+            // Remove non-alphanumeric chars and lowercase for better checking
+            var re = /[^A-Za-z0-9]/g;
+            str = str.toLowerCase().replace(re, '');
+            var reversedStr = str.split('').reverse().join('');
+            return reversedStr === str;
+        }
+    </script>
+</body>
+
+</html>

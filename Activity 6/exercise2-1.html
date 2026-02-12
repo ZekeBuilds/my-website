@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Greeting & Digital Clock</title>
+    <style>
+        /* CSS for creative and attractive design [cite: 155, 163] */
+        body {
+            background: #2c3e50;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #clock-container {
+            border: 5px solid #ecf0f1;
+            padding: 20px 40px;
+            border-radius: 15px;
+            background: #34495e;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        #clock {
+            font-size: 50px;
+            font-weight: bold;
+            color: #1abc9c;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body onload="getGreeting()">
+
+    <h2>Current Time</h2>
+    <div id="clock-container">
+        <div id="clock">00:00:00</div>
+    </div>
+
+    <script>
+        // Function to display greeting based on time [cite: 157]
+        function getGreeting() {
+            let now = new Date(); // [cite: 169]
+            let hour = now.getHours(); // [cite: 170]
+            let message = "";
+
+            if (hour < 12) {
+                message = "Good Morning!"; // [cite: 158]
+            } else if (hour < 17) {
+                message = "Good Afternoon!"; // [cite: 159]
+            } else if (hour < 21) {
+                message = "Good Evening!"; // [cite: 160]
+            } else {
+                message = "Good Night!"; // [cite: 161]
+            }
+            
+            alert(message); // Display appropriate dialog box [cite: 154]
+        }
+
+        // Function for the live digital clock [cite: 162]
+        function updateClock() {
+            let now = new Date();
+            let hours = String(now.getHours()).padStart(2, '0');
+            let minutes = String(now.getMinutes()).padStart(2, '0');
+            let seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            document.getElementById("clock").innerHTML = hours + ":" + minutes + ":" + seconds;
+        }
+
+        // Update the clock every second [cite: 162]
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call to avoid 1-second delay
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 8: Uppercase Check</title>
+</head>
+
+<body>
+    <h2>First Character Uppercase Check</h2>
+    <input type="text" id="textInput" placeholder="Enter text">
+    <button onclick="runCheck()">Check</button>
+    <p id="output"></p>
+
+    <script>
+        function runCheck() {
+            var str = document.getElementById("textInput").value;
+            upper_case(str);
+        }
+
+        // Declare and define the function upper_case() 
+        function upper_case(str) {
+            var regexp = /^[A-Z]/;
+            if (regexp.test(str)) {
+                document.getElementById("output").innerHTML = "First character is uppercase.";
+            } else {
+                document.getElementById("output").innerHTML = "First character is NOT uppercase.";
+            }
+        }
+    </script>
+</body>
+
+</html>

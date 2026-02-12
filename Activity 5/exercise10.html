@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 10: Mobile Validation</title>
+</head>
+
+<body>
+    <h2>Mobile Number Validation</h2>
+    <input type="text" id="mobile" placeholder="Enter 10 digit number">
+    <button onclick="MobileNoValidation()">Validate</button>
+    <p id="message"></p>
+
+    <script>
+        // Declare and define the function MobileNoValidation() [cite: 88]
+        function MobileNoValidation() {
+            // Get the input mobile no from the user [cite: 89]
+            var mobile = document.getElementById("mobile").value;
+            var msg = document.getElementById("message");
+
+            // Basic check for 10 digits
+            var pattern = /^\d{10}$/;
+
+            if (pattern.test(mobile)) {
+                msg.innerHTML = "Valid Mobile Number";
+                msg.style.color = "green";
+            } else {
+                msg.innerHTML = "Invalid Mobile Number (Must be 10 digits)";
+                msg.style.color = "red";
+            }
+        }
+    </script>
+</body>
+
+</html>

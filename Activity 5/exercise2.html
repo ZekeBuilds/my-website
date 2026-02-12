@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 2: Leap Year</title>
+</head>
+
+<body>
+    <h2>Leap Year Checker</h2>
+    <button onclick="leapYear()">Check a Year</button>
+
+    <script>
+        // Declare and define the function leapYear() [cite: 21]
+        function leapYear() {
+            var year = prompt("Please enter a year:");
+
+            // Using conditional constructs to check leap year [cite: 22]
+            if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
+                // Show the result using 'alert' dialog box [cite: 23]
+                alert(year + " is a Leap Year.");
+            } else {
+                alert(year + " is NOT a Leap Year.");
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login page</title>
+    <style>
+        /* Internal CSS styling */
+        body {
+            background-color: lightblue;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+        }
+        p {
+            font-family: verdana;
+            font-size: 20px;
+        }
+        form {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+    <script language="javascript">
+        /* Function to check userid & password  */
+        function check(form) {
+            if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd") {
+                // Opens target page if ID & password match 
+                alert("Login Successful!");
+                window.open("https://www.google.com", "_blank");
+            } else {
+                // Displays error message 
+                alert("Error Password or Username");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1> Validate Credentials </h1>
+    <form name="login">
+        Username: <input type="text" name="userid"/><br><br>
+        Password: <input type="password" name="pswrd"/><br><br>
+        <input type="button" onclick="check(this.form)" value="Login"/>
+        <input type="reset" value="Cancel"/>
+    </form>
+</body>
+</html>
