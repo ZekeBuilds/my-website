@@ -6,11 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="css/home.css">
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body>
     <div class="home-container">
-        <div class="welcome-section scroll-reveal">
+
+        <!-- ── GREETING + CLOCK BAR ── -->
+        <div class="greeting-bar">
+            <span id="greeting-text" class="greeting-text"></span>
+            <span class="clock-divider">|</span>
+            <span class="live-clock" id="live-clock">00:00:00 AM</span>
+        </div>
+
+        <!-- ── WELCOME ── -->
+        <div class="welcome-section">
             <h1>Welcome to My Portfolio</h1>
             <p>Hello! I'm Ezekiel John R. Libao, a passionate Computer Engineering student at De La Salle University.
             </p>
@@ -18,37 +29,35 @@
                 to reach out through the contact form below!</p>
         </div>
 
-        <div class="socials-section scroll-reveal">
+        <!-- ── SOCIALS ── -->
+        <div class="socials-section">
             <h2>Connect With Me</h2>
             <div class="social-links centered">
                 <a href="YOUR_FACEBOOK_LINK_HERE" target="_blank" class="social-link">
-                    <span class="social-icon">FB</span>
-                    Facebook
+                    <span class="social-icon">FB</span>Facebook
                 </a>
                 <a href="YOUR_INSTAGRAM_LINK_HERE" target="_blank" class="social-link">
-                    <span class="social-icon">IG</span>
-                    Instagram
+                    <span class="social-icon">IG</span>Instagram
                 </a>
                 <a href="YOUR_TWITTER_LINK_HERE" target="_blank" class="social-link">
-                    <span class="social-icon">TW</span>
-                    Twitter
+                    <span class="social-icon">TW</span>Twitter
                 </a>
                 <a href="YOUR_TIKTOK_LINK_HERE" target="_blank" class="social-link">
-                    <span class="social-icon">TT</span>
-                    TikTok
+                    <span class="social-icon">TT</span>TikTok
                 </a>
             </div>
             <div class="cv-button-wrapper">
                 <a href="cv.html" target="_blank" class="cv-button">
-                    <span class="cv-icon">CV</span>
-                    View My CV/Resume
+                    <span class="cv-icon">CV</span> View My CV/Resume
                 </a>
             </div>
         </div>
 
-        <div class="contact-section scroll-reveal">
+        <!-- ── CONTACT FORM ── -->
+        <div class="contact-section">
             <h2>Get In Touch</h2>
-            <form id="contactForm" onsubmit="return handleSubmit(event)">
+
+            <form id="contactForm">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" required placeholder="Enter your full name">
@@ -65,65 +74,151 @@
                     <label for="message">Message</label>
                     <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
                 </div>
-                <button type="submit" class="submit-btn">Send Message</button>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span id="btnText">Send Message</span>
+                    <span id="btnSpinner" class="btn-spinner" style="display:none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="spin-icon">
+                            <path
+                                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                        </svg>
+                        Sending…
+                    </span>
+                </button>
             </form>
-            <div id="successMessage" class="success-message">
+
+            <!-- Success -->
+            <div id="successMessage" class="success-message" style="display:none;">
+                <div class="success-icon">✓</div>
                 <p class="success-title">Message Sent Successfully!</p>
                 <p class="success-text">Thank you for reaching out. I'll get back to you soon!</p>
             </div>
+
+            <!-- Error -->
+            <div id="errorMessage" class="error-message" style="display:none;">
+                <div class="error-icon">!</div>
+                <p class="error-title">Something went wrong.</p>
+                <p class="error-text">Please try again or email me directly.</p>
+            </div>
         </div>
-    </div>
+
+    </div><!-- /home-container -->
 
     <script>
-        // Scroll reveal animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // ─── EmailJS config ─────────────────────────────────────────────────────
+        // STEP 1 – Sign up at https://www.emailjs.com (free tier works fine)
+        // STEP 2 – Create a service (Gmail, Outlook, etc.) → copy SERVICE_ID
+        // STEP 3 – Create an email template → copy TEMPLATE_ID
+        //          Template variables to use: {{from_name}}, {{from_email}},
+        //                                     {{subject}}, {{message}}, {{timestamp}}
+        // STEP 4 – Go to Account > API Keys → copy PUBLIC_KEY
+        // STEP 5 – Replace the three placeholders below and you're done!
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                }
-            });
-        }, observerOptions);
+        const EMAILJS_PUBLIC_KEY = "YOUR_EMAILJS_PUBLIC_KEY";   // ← replace
+        const EMAILJS_SERVICE_ID = "YOUR_EMAILJS_SERVICE_ID";   // ← replace
+        const EMAILJS_TEMPLATE_ID = "YOUR_EMAILJS_TEMPLATE_ID";  // ← replace
 
-        document.querySelectorAll('.scroll-reveal').forEach(el => {
-            observer.observe(el);
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+        // ─── B) Greeting ────────────────────────────────────────────────────────
+        function getGreeting() {
+            const hour = new Date().getHours();
+            if (hour >= 5 && hour < 12) return "Good Morning! ☀️";
+            if (hour >= 12 && hour < 17) return "Good Afternoon! 🌤️";
+            if (hour >= 17 && hour < 21) return "Good Evening! 🌆";
+            return "Good Night! 🌙";
+        }
+        document.getElementById("greeting-text").textContent = getGreeting();
+
+        // ─── C) Live clock ──────────────────────────────────────────────────────
+        function updateClock() {
+            const now = new Date();
+            let h = now.getHours();
+            const m = String(now.getMinutes()).padStart(2, "0");
+            const s = String(now.getSeconds()).padStart(2, "0");
+            const ampm = h >= 12 ? "PM" : "AM";
+            h = h % 12 || 12;
+            const timeStr = `${String(h).padStart(2, "0")}:${m}:${s} ${ampm}`;
+            document.getElementById("live-clock").textContent = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Listen for clock ticks broadcast from app.js (parent frame)
+        window.addEventListener("message", (e) => {
+            if (e.data?.type === "clockTick") {
+                document.getElementById("live-clock").textContent = e.data.time;
+            }
         });
 
-        function handleSubmit(event) {
-            event.preventDefault();
+        // ─── A) Form submission – retrieve values + send email ──────────────────
+        document.getElementById("contactForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
+            // a) Retrieve all input values
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const subject = document.getElementById("subject").value.trim();
+            const message = document.getElementById("message").value.trim();
+            const timestamp = new Date().toLocaleString();
 
-            const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+            // a) Print to console
+            console.group("📬 Contact Form Submission");
+            console.log("Name     :", name);
+            console.log("Email    :", email);
+            console.log("Subject  :", subject);
+            console.log("Message  :", message);
+            console.log("Timestamp:", timestamp);
+            console.groupEnd();
 
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('email', email);
-            formData.append('subject', subject);
-            formData.append('message', message);
-            formData.append('timestamp', new Date().toLocaleString());
+            // Notify parent frame (app.js) as well
+            try {
+                window.parent.postMessage({
+                    type: "formSubmission",
+                    payload: { name, email, subject, message, timestamp }
+                }, "*");
+            } catch (_) { }
 
-            const form = document.getElementById('contactForm');
-            const successMessage = document.getElementById('successMessage');
+            // UI – loading state
+            const btn = document.getElementById("submitBtn");
+            const btnText = document.getElementById("btnText");
+            const spinner = document.getElementById("btnSpinner");
+            btn.disabled = true;
+            btnText.style.display = "none";
+            spinner.style.display = "inline-flex";
 
-            form.style.display = 'none';
-            successMessage.style.display = 'block';
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    from_name: name,
+                    from_email: email,
+                    subject: subject,
+                    message: message,
+                    timestamp: timestamp,
+                });
 
-            setTimeout(function () {
-                form.reset();
-                form.style.display = 'block';
-                successMessage.style.display = 'none';
-            }, 5000);
+                // Success
+                this.style.display = "none";
+                document.getElementById("successMessage").style.display = "flex";
 
-            return false;
-        }
+                // Reset after 5 s
+                setTimeout(() => {
+                    this.reset();
+                    this.style.display = "block";
+                    document.getElementById("successMessage").style.display = "none";
+                }, 5000);
+
+            } catch (err) {
+                console.error("EmailJS error:", err);
+                document.getElementById("errorMessage").style.display = "flex";
+                setTimeout(() => {
+                    document.getElementById("errorMessage").style.display = "none";
+                }, 5000);
+            } finally {
+                btn.disabled = false;
+                btnText.style.display = "inline";
+                spinner.style.display = "none";
+            }
+        });
     </script>
 </body>
 

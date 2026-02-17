@@ -53,6 +53,7 @@ body::before {
     z-index: 100;
     border-bottom: 1px solid rgba(52, 152, 219, 0.2);
     animation: slideDown 0.8s ease-out;
+    flex-shrink: 0;
 }
 
 @keyframes slideDown {
@@ -70,13 +71,13 @@ body::before {
 .content {
     display: flex;
     height: calc(100vh - 120px);
-    gap: 0;
     position: relative;
     z-index: 10;
 }
 
 .menu {
     width: 280px;
+    min-width: 280px;
     background: rgba(15, 20, 40, 0.95);
     backdrop-filter: blur(10px);
     box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
@@ -113,6 +114,7 @@ body::before {
     flex: 1;
     background: rgba(10, 14, 39, 0.8);
     position: relative;
+    /* KEY FIX: allow the iframe inside to scroll */
     overflow: hidden;
     animation: fadeIn 1s ease-out 0.4s both;
 }
@@ -151,6 +153,7 @@ body::before {
     }
 }
 
+/* KEY FIX: iframe fills container and scrolls internally */
 iframe {
     width: 100%;
     height: 100%;
@@ -158,6 +161,8 @@ iframe {
     display: block;
     position: relative;
     z-index: 2;
+    /* Let each page scroll on its own */
+    overflow: auto;
 }
 
 /* Glow effects */

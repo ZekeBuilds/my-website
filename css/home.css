@@ -14,18 +14,73 @@ body {
     padding: 60px 40px;
 }
 
-/* Scroll-triggered animations */
-.scroll-animate {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+/* ── STAGGERED ENTRANCE ANIMATIONS (iframe-safe, no IntersectionObserver) ── */
+@keyframes enterUp {
+    from {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.scroll-animate.active {
-    opacity: 1;
-    transform: translateY(0);
+.greeting-bar {
+    animation: enterUp 0.6s ease-out 0.10s both;
 }
 
+.welcome-section {
+    animation: enterUp 0.7s ease-out 0.25s both;
+}
+
+.socials-section {
+    animation: enterUp 0.7s ease-out 0.45s both;
+}
+
+.contact-section {
+    animation: enterUp 0.7s ease-out 0.65s both;
+}
+
+/* ── B+C) GREETING BAR & LIVE CLOCK ──────────────────────────────────────── */
+.greeting-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(52, 152, 219, 0.08);
+    border: 1px solid rgba(52, 152, 219, 0.25);
+    border-radius: 50px;
+    padding: 12px 28px;
+    margin-bottom: 36px;
+    width: fit-content;
+    backdrop-filter: blur(10px);
+}
+
+.greeting-text {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.3px;
+}
+
+.clock-divider {
+    color: rgba(52, 152, 219, 0.4);
+    font-size: 1.1em;
+    user-select: none;
+}
+
+.live-clock {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95em;
+    font-weight: 700;
+    color: #3498db;
+    letter-spacing: 1.5px;
+    min-width: 110px;
+    text-align: right;
+}
+
+/* ── WELCOME SECTION ─────────────────────────────────────────────────────── */
 .welcome-section {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
@@ -38,19 +93,6 @@ body {
     border: 1px solid rgba(52, 152, 219, 0.2);
     position: relative;
     overflow: hidden;
-    animation: fadeInScale 1s ease-out;
-}
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
 }
 
 .welcome-section::before {
@@ -62,6 +104,7 @@ body {
     height: 200%;
     background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
     animation: rotate 20s linear infinite;
+    pointer-events: none;
 }
 
 @keyframes rotate {
@@ -84,19 +127,6 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: slideInLeft 0.8s ease-out;
-}
-
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
 }
 
 .welcome-section p {
@@ -105,19 +135,9 @@ body {
     line-height: 1.8;
     margin-bottom: 20px;
     position: relative;
-    animation: fadeIn 1s ease-out;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
+/* ── SOCIALS SECTION ─────────────────────────────────────────────────────── */
 .socials-section {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
@@ -141,6 +161,7 @@ body {
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(46, 204, 113, 0.1), transparent);
     animation: slide 3s ease-in-out infinite;
+    pointer-events: none;
 }
 
 @keyframes slide {
@@ -257,7 +278,6 @@ body {
     box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6);
 }
 
-/* Center social links horizontally */
 .social-links.centered {
     display: flex;
     justify-content: center;
@@ -266,7 +286,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* Contact Section */
+/* ── CONTACT SECTION ─────────────────────────────────────────────────────── */
 .contact-section {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
@@ -277,6 +297,7 @@ body {
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(155, 89, 182, 0.2);
     position: relative;
+    margin-bottom: 40px;
 }
 
 .contact-section h2 {
@@ -288,35 +309,6 @@ body {
 
 .form-group {
     margin-bottom: 28px;
-    animation: fadeInUp 0.6s ease-out both;
-}
-
-.form-group:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.form-group:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.form-group:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.form-group:nth-child(4) {
-    animation-delay: 0.4s;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 label {
@@ -338,6 +330,7 @@ textarea {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: rgba(255, 255, 255, 0.05);
     color: #ffffff;
+    box-sizing: border-box;
 }
 
 input:focus,
@@ -353,6 +346,7 @@ textarea {
     min-height: 140px;
 }
 
+/* ── SUBMIT BUTTON ───────────────────────────────────────────────────────── */
 .submit-btn {
     background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     color: white;
@@ -366,7 +360,11 @@ textarea {
     width: 100%;
     position: relative;
     overflow: hidden;
-    animation: fadeInUp 0.6s ease-out 0.5s both;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 54px;
 }
 
 .submit-btn::before {
@@ -392,15 +390,114 @@ textarea {
     box-shadow: 0 8px 25px rgba(52, 152, 219, 0.5);
 }
 
+.submit-btn:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-spinner {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.spin-icon {
+    animation: spinAnim 0.8s linear infinite;
+}
+
+@keyframes spinAnim {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── SUCCESS MESSAGE ─────────────────────────────────────────────────────── */
 .success-message {
-    display: none;
     margin-top: 25px;
-    padding: 25px;
+    padding: 30px;
     background: rgba(46, 204, 113, 0.1);
-    border-left: 4px solid #2ecc71;
-    border-radius: 10px;
     border: 1px solid rgba(46, 204, 113, 0.3);
+    border-left: 4px solid #2ecc71;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
     animation: slideInRight 0.5s ease-out;
+}
+
+.success-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background: rgba(46, 204, 113, 0.2);
+    border: 2px solid #2ecc71;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2ecc71;
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+.success-title {
+    color: #2ecc71;
+    font-size: 1.15em;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+}
+
+.success-text {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.95em;
+}
+
+/* ── ERROR MESSAGE ───────────────────────────────────────────────────────── */
+.error-message {
+    margin-top: 25px;
+    padding: 30px;
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    border-left: 4px solid #e74c3c;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    animation: slideInRight 0.5s ease-out;
+}
+
+.error-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background: rgba(231, 76, 60, 0.2);
+    border: 2px solid #e74c3c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e74c3c;
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+.error-title {
+    color: #e74c3c;
+    font-size: 1.15em;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+}
+
+.error-text {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.95em;
 }
 
 @keyframes slideInRight {
@@ -415,41 +512,33 @@ textarea {
     }
 }
 
-.success-title {
-    color: #2ecc71;
-    font-size: 1.2em;
-    font-weight: 600;
-    margin: 0 0 10px 0;
-}
-
-.success-text {
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0;
-}
-
-/* Scroll reveal effect */
-@media (prefers-reduced-motion: no-preference) {
-    .scroll-reveal {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    .scroll-reveal.revealed {
-        animation: revealElement 0.8s ease-out forwards;
-    }
-
-    @keyframes revealElement {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-}
-
-/* Mobile adjustments for CV button */
+/* ── MOBILE ──────────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
+    .home-container {
+        padding: 30px 20px;
+    }
+
+    .welcome-section,
+    .socials-section,
+    .contact-section {
+        padding: 30px;
+    }
+
+    .welcome-section h1 {
+        font-size: 1.8em;
+    }
+
+    .greeting-bar {
+        padding: 10px 18px;
+        gap: 10px;
+    }
+
+    .greeting-text,
+    .live-clock {
+        font-size: 0.85em;
+    }
+
     .cv-button {
-        width: auto;
         padding: 12px 30px;
         font-size: 0.9em;
     }
