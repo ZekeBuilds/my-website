@@ -543,3 +543,25 @@ textarea {
         font-size: 0.9em;
     }
 }
+
+/* ── FIELD VALIDATION STATES ─────────────────────────────────────────────── */
+.field-error {
+    display: block;
+    font-size: 0.82em;
+    color: #e74c3c;
+    margin-top: 5px;
+    min-height: 18px;
+    transition: opacity 0.2s;
+}
+
+input.field-invalid,
+textarea.field-invalid {
+    border-color: #e74c3c !important;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
+}
+
+input.field-valid,
+textarea.field-valid {
+    border-color: #2ecc71 !important;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15) !important;
+}

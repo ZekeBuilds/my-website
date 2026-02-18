@@ -6,11 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="css/home.css">
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="stylesheet" href="css/form.css">
+    <!-- Script linked with defer as required by Exercise 4 -->
+    <script src="js/script.js" defer></script>
 </head>
 
 <body>
+    <!-- Toast container (fixed, sits above everything) -->
+    <div id="toast-container"></div>
+
     <div class="home-container">
 
         <!-- ── GREETING + CLOCK BAR ── -->
@@ -23,8 +27,7 @@
         <!-- ── WELCOME ── -->
         <div class="welcome-section">
             <h1>Welcome to My Portfolio</h1>
-            <p>Hello! I'm Ezekiel John R. Libao, a passionate Computer Engineering student at De La Salle University.
-            </p>
+            <p>Hello! I'm Ezekiel John R. Libao, a passionate Computer Engineering student at De La Salle University.</p>
             <p>Explore my portfolio to learn more about my projects, experience, and educational background. Feel free
                 to reach out through the contact form below!</p>
         </div>
@@ -57,169 +60,91 @@
         <div class="contact-section">
             <h2>Get In Touch</h2>
 
-            <form id="contactForm">
-                <div class="form-group">
+            <!--
+                FORMSUBMIT SETUP:
+                1. Replace "your-email@example.com" below with your real email.
+                2. Submit the form once — FormSubmit emails you a confirmation link.
+                3. Click the confirmation link to activate. Done!
+
+                Hidden config fields:
+                  _subject  → sets the email subject line
+                  _captcha  → disables FormSubmit's built-in captcha (we do our own filtering)
+                  _template → "table" gives a clean readable email layout
+                  _honey    → honeypot trap: invisible to humans, bots fill it and get blocked
+            -->
+            <form
+                id="contactForm"
+                action="https://formsubmit.co/your-email@example.com"
+                method="POST"
+                novalidate
+            >
+                <input type="hidden" name="_subject" value="New Message from Portfolio">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="text"   name="_honey"   style="display:none" tabindex="-1" autocomplete="off">
+
+                <!-- Validation summary box (shown on submit with errors) -->
+                <div id="validationSummary" class="validation-summary" style="display:none;">
+                    <div class="vs-title">⚠ Please fix the following before sending:</div>
+                    <ul id="validationList"></ul>
+                </div>
+
+                <div class="form-group" id="group-name">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    <input type="text" id="name" name="name" required
+                           placeholder="Enter your full name" autocomplete="name">
+                    <span class="field-error"     id="nameError"></span>
+                    <span class="field-valid-msg" id="nameValid">Looks good!</span>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" id="group-email">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    <input type="email" id="email" name="email" required
+                           placeholder="your.email@example.com" autocomplete="email">
+                    <span class="field-error"     id="emailError"></span>
+                    <span class="field-valid-msg" id="emailValid">Valid email address!</span>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" id="group-subject">
                     <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="subject" required placeholder="What is this about?">
+                    <input type="text" id="subject" name="subject" required
+                           placeholder="What is this about?">
+                    <span class="field-error"     id="subjectError"></span>
+                    <span class="field-valid-msg" id="subjectValid">Great subject!</span>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" id="group-message">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" required placeholder="Write your message here..."></textarea>
+                    <textarea id="message" name="message" required
+                              placeholder="Write your message here..."></textarea>
+                    <span class="field-error"     id="messageError"></span>
+                    <span class="field-valid-msg" id="messageValid">Message looks great!</span>
                 </div>
+
                 <button type="submit" class="submit-btn" id="submitBtn">
                     <span id="btnText">Send Message</span>
                     <span id="btnSpinner" class="btn-spinner" style="display:none;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="spin-icon">
-                            <path
-                                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round" class="spin-icon">
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83
+                                     M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                         </svg>
                         Sending…
                     </span>
                 </button>
             </form>
 
-            <!-- Success -->
+            <!-- Inline success banner -->
             <div id="successMessage" class="success-message" style="display:none;">
                 <div class="success-icon">✓</div>
-                <p class="success-title">Message Sent Successfully!</p>
-                <p class="success-text">Thank you for reaching out. I'll get back to you soon!</p>
-            </div>
-
-            <!-- Error -->
-            <div id="errorMessage" class="error-message" style="display:none;">
-                <div class="error-icon">!</div>
-                <p class="error-title">Something went wrong.</p>
-                <p class="error-text">Please try again or email me directly.</p>
+                <div>
+                    <p class="success-title">Message Sent Successfully!</p>
+                    <p class="success-text">Thank you for reaching out. I'll get back to you soon!</p>
+                </div>
             </div>
         </div>
 
     </div><!-- /home-container -->
-
-    <script>
-        // ─── EmailJS config ─────────────────────────────────────────────────────
-        // STEP 1 – Sign up at https://www.emailjs.com (free tier works fine)
-        // STEP 2 – Create a service (Gmail, Outlook, etc.) → copy SERVICE_ID
-        // STEP 3 – Create an email template → copy TEMPLATE_ID
-        //          Template variables to use: {{from_name}}, {{from_email}},
-        //                                     {{subject}}, {{message}}, {{timestamp}}
-        // STEP 4 – Go to Account > API Keys → copy PUBLIC_KEY
-        // STEP 5 – Replace the three placeholders below and you're done!
-
-        const EMAILJS_PUBLIC_KEY = "YOUR_EMAILJS_PUBLIC_KEY";   // ← replace
-        const EMAILJS_SERVICE_ID = "YOUR_EMAILJS_SERVICE_ID";   // ← replace
-        const EMAILJS_TEMPLATE_ID = "YOUR_EMAILJS_TEMPLATE_ID";  // ← replace
-
-        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
-        // ─── B) Greeting ────────────────────────────────────────────────────────
-        function getGreeting() {
-            const hour = new Date().getHours();
-            if (hour >= 5 && hour < 12) return "Good Morning! ☀️";
-            if (hour >= 12 && hour < 17) return "Good Afternoon! 🌤️";
-            if (hour >= 17 && hour < 21) return "Good Evening! 🌆";
-            return "Good Night! 🌙";
-        }
-        document.getElementById("greeting-text").textContent = getGreeting();
-
-        // ─── C) Live clock ──────────────────────────────────────────────────────
-        function updateClock() {
-            const now = new Date();
-            let h = now.getHours();
-            const m = String(now.getMinutes()).padStart(2, "0");
-            const s = String(now.getSeconds()).padStart(2, "0");
-            const ampm = h >= 12 ? "PM" : "AM";
-            h = h % 12 || 12;
-            const timeStr = `${String(h).padStart(2, "0")}:${m}:${s} ${ampm}`;
-            document.getElementById("live-clock").textContent = timeStr;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // Listen for clock ticks broadcast from app.js (parent frame)
-        window.addEventListener("message", (e) => {
-            if (e.data?.type === "clockTick") {
-                document.getElementById("live-clock").textContent = e.data.time;
-            }
-        });
-
-        // ─── A) Form submission – retrieve values + send email ──────────────────
-        document.getElementById("contactForm").addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            // a) Retrieve all input values
-            const name = document.getElementById("name").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const subject = document.getElementById("subject").value.trim();
-            const message = document.getElementById("message").value.trim();
-            const timestamp = new Date().toLocaleString();
-
-            // a) Print to console
-            console.group("📬 Contact Form Submission");
-            console.log("Name     :", name);
-            console.log("Email    :", email);
-            console.log("Subject  :", subject);
-            console.log("Message  :", message);
-            console.log("Timestamp:", timestamp);
-            console.groupEnd();
-
-            // Notify parent frame (app.js) as well
-            try {
-                window.parent.postMessage({
-                    type: "formSubmission",
-                    payload: { name, email, subject, message, timestamp }
-                }, "*");
-            } catch (_) { }
-
-            // UI – loading state
-            const btn = document.getElementById("submitBtn");
-            const btnText = document.getElementById("btnText");
-            const spinner = document.getElementById("btnSpinner");
-            btn.disabled = true;
-            btnText.style.display = "none";
-            spinner.style.display = "inline-flex";
-
-            try {
-                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                    from_name: name,
-                    from_email: email,
-                    subject: subject,
-                    message: message,
-                    timestamp: timestamp,
-                });
-
-                // Success
-                this.style.display = "none";
-                document.getElementById("successMessage").style.display = "flex";
-
-                // Reset after 5 s
-                setTimeout(() => {
-                    this.reset();
-                    this.style.display = "block";
-                    document.getElementById("successMessage").style.display = "none";
-                }, 5000);
-
-            } catch (err) {
-                console.error("EmailJS error:", err);
-                document.getElementById("errorMessage").style.display = "flex";
-                setTimeout(() => {
-                    document.getElementById("errorMessage").style.display = "none";
-                }, 5000);
-            } finally {
-                btn.disabled = false;
-                btnText.style.display = "inline";
-                spinner.style.display = "none";
-            }
-        });
-    </script>
 </body>
-
 </html>
